@@ -1,0 +1,253 @@
+/* ==========================================================
+   MENÚ QR · Café de las Llanuras
+   Para otro negocio cambia solo estos colores y los datos de app.js
+   ========================================================== */
+:root {
+    --noche: #1b1a38;        /* cielo arriba */
+    --atardecer: #f26b3a;    /* cielo en el horizonte */
+    --sol: #ffd27a;          /* sol y detalles activos */
+    --suelo: #2a1a12;        /* barra de categorías y texto */
+    --papel: #f7f5f2;        /* fondo del menú */
+    --precio: #b8400b;       /* naranja oscuro legible sobre el papel */
+    --suave: #6f625a;
+    --linea: #ddd6ce;
+    --display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--papel);
+    color: var(--suelo);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+}
+
+/* ---------- Portada: atardecer en la llanura ---------- */
+.encabezado {
+    --lado: max(1.25rem, calc((100% - 1040px) / 2 + 1rem));
+    --sol-tam: clamp(120px, 26vw, 200px);
+    position: relative;
+    overflow: hidden;
+    padding: 3.5rem var(--lado) calc(var(--sol-tam) / 2 + 2rem);
+    background: linear-gradient(
+        to bottom,
+        var(--noche) 0%,
+        #6a2f5b 40%,
+        var(--atardecer) 78%,
+        var(--sol) 100%
+    );
+    color: #fff;
+    font-style: normal;
+    text-align: left;
+}
+
+/* el sol asoma sobre la barra de categorías, que hace de horizonte */
+.encabezado::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: calc(var(--sol-tam) / -2);
+    width: var(--sol-tam);
+    height: var(--sol-tam);
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff6d6 0%, var(--sol) 70%);
+}
+
+.encabezado h1,
+.encabezado p {
+    position: relative;
+    z-index: 1;
+}
+
+.encabezado h1 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: clamp(2.2rem, 8vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+}
+
+.encabezado p {
+    margin: 0.6rem 0 0;
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+/* ---------- Categorías: el suelo de la llanura ---------- */
+.categorias {
+    --lado: max(1.25rem, calc((100% - 1040px) / 2 + 1rem));
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 1.75rem;
+    overflow-x: auto;
+    padding: 0 var(--lado);
+    background: var(--suelo);
+    scrollbar-width: none;
+}
+
+.categorias::-webkit-scrollbar {
+    display: none;
+}
+
+.cat-btn {
+    flex: none;
+    padding: 1rem 0 0.8rem;
+    border: 0;
+    border-bottom: 4px solid transparent;
+    border-radius: 0;
+    background: none;
+    color: rgba(255, 255, 255, 0.65);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.cat-btn:hover {
+    color: #fff;
+}
+
+.cat-btn.activo {
+    background: none;
+    color: #fff;
+    border-bottom-color: var(--sol);
+}
+
+.cat-btn:focus-visible {
+    outline: 3px solid var(--sol);
+    outline-offset: -3px;
+}
+
+/* ---------- Contenedor ---------- */
+#contenedor {
+    max-width: 1040px;
+    margin: 0 auto 3rem;
+    padding: 0 1.25rem;
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr;
+}
+
+/* ---------- Datos del local (barra de información) ---------- */
+.descripcion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 1.75rem;
+    padding: 1.5rem 0 1.25rem;
+    border-bottom: 1px solid var(--linea);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+    color: var(--suave);
+    font-style: normal;
+    text-align: left;
+}
+
+.descripcion p {
+    margin: 0;
+}
+
+#eslogan2 {
+    flex-basis: 100%;
+    font-family: var(--display);
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--suelo);
+}
+
+#direccion::before,
+#numero::before {
+    font-weight: 700;
+    color: var(--precio);
+}
+
+#direccion::before {
+    content: "Dirección · ";
+}
+
+#numero::before {
+    content: "WhatsApp · ";
+}
+
+/* ---------- Platos: filas con foto, nombre y precio ---------- */
+.grilla {
+    display: grid;
+    gap: 0 2.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
+}
+
+.card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--linea);
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+}
+
+.card img {
+    width: 104px;
+    height: 104px;
+    border-radius: 16px;
+    object-fit: cover;
+    background: #e6dfd6;
+}
+
+.card .info h3 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.card .desc {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--suave);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.card p {
+    margin: 0;
+    color: var(--precio);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.card.agotado {
+    opacity: 0.55;
+}
+
+.card.agotado p {
+    color: var(--suave);
+}
+
+@media (max-width: 480px) {
+    .card img {
+        width: 88px;
+        height: 88px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+    }
+}
